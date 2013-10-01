@@ -2,11 +2,11 @@
 
 /*
 Plugin Name: Sistem Informasi Keuangan
-Plugin URI: https://code.google.com/p/sistem-informasi-keuangan/
+Plugin URI: https://github.com/kampar/keuangan/
 Description: Sistem Informasi Keuangan <a href="http://poltek-kampar.ac.id">Politeknik Kampar</a> dibuat oleh Leni Rapika Oktapiani untuk UPT ICT Centre.
-Author: Leni Rapika Oktapiani
+Author: Muhammad Jazman, Leni Rapika Oktapiani
 Version: 1.0.0
-Author URI: https://code.google.com/u/114844818880194934018/
+Author URI: https://github.com/kampar/
 
 */
 
