@@ -1,71 +1,10 @@
 <?php
-//data_mhs_page.php
+
+/** * Fungsi ini berguna untuk menampilkan form Mahasiswa pada admin WordPress */function keuangan_main_page(){	$crud = $_REQUEST['crud'];	switch ($crud){		case "read": read_data_mhs();break;		case "create": create_data_mhs();break;		case "update": update_data_mhs();break;		case "delete": delete_data_mhs();break;		case "form": form_update_data_mhs();break;		case "telah": telah_update_data_mhs();break;		default: panel_data_mhs();break;	}}
+function panel_data_mhs(){	?><h2>Menu :</h2>	<h3><a href="<?php echo admin_url("admin.php")?>?page=<?=$_REQUEST['page']?>&crud=read">Lihat</a> Data Mahasiswa</h3>	<h3><a href="<?php echo admin_url("admin.php")?>?page=<?=$_REQUEST['page']?>&crud=create">Tambah</a> Data Mahasiswa Baru</h3>	<h3><a href="<?php echo admin_url("admin.php")?>?page=<?=$_REQUEST['page']?>&crud=update">Ubah</a> Data Mahasiswa</h3>	<h3><a href="<?php echo admin_url("admin.php")?>?page=<?=$_REQUEST['page']?>&crud=delete">Hapus</a> Data Mahasiswa</h3>	<?}
+function read_data_mhs(){	echo "Daftar mhs yang ada di Politeknik Kampar adalah sebagai berikut :";	echo "<br>";	echo "<br>";	//print_r($_POST);	global $wpdb;	$mahasiswas = $wpdb->get_results(" SELECT * FROM {$wpdb->prefix}mahasiswa;");	$L=1;	foreach($mahasiswas as $mhs){    echo "<tr class='hentry alternate'><td align=center>".$L++ . " </td>			<td align=center >" .$mhs->nis .  " </td>			<td align=center >". $mhs->nama_mhs. "</td>			<td align=center>" .$mhs->jenis_kelamin .  " </td>			<td align=center>" .$mhs->alamat .  " </td>			<td align=center>" .$mhs->tmpt_lahir .  " </td>			<td align=center>" .$mhs->tgl_lahir .  " </td>			<td align=center>" .$mhs->agama .  " </td>			<td align=center>" .$mhs->kelas ."</td>			<td align=center>" .$mhs->semester ."</td>			<td align=center>" .$mhs->angkatan ."</td>			<td align=center>" .$mhs->nama_sekolah . "</td>			</tr>";	}	echo "</table>";	?>	<h3><a href="<?php echo admin_url("admin.php")?>?page=<?=$_REQUEST['page']?>&crud=panel">Kembali</a></h3>	<?}
 
-/**
- * Fungsi ini berguna untuk menampilkan form Mahasiswa pada admin WordPress
- */
-
-function keuangan_main_page(){
-	$crud = $_REQUEST['crud'];
-
-	switch ($crud){
-		case "read": read_data_mhs();break;
-		case "create": create_data_mhs();break;
-		case "update": update_data_mhs();break;
-		case "delete": delete_data_mhs();break;
-		case "form": form_update_data_mhs();break;
-		case "telah": telah_update_data_mhs();break;
-		default: panel_data_mhs();break;
-	}
-	//echo "<pre>"; print_r($GLOBALS); echo "</pre>";
-
-}
-
-
-function panel_data_mhs(){
-	?><h2>Menu :</h2>
-	<h3><a href="admin.php?page=<?=$_REQUEST['page']?>&crud=read">Lihat</a> Data Mahasiswa</h3>
-	<h3><a href="admin.php?page=<?=$_REQUEST['page']?>&crud=create">Tambah</a> Data Mahasiswa Baru</h3>
-	<h3><a href="admin.php?page=<?=$_REQUEST['page']?>&crud=update">Ubah</a> Data Mahasiswa</h3>
-	<h3><a href="admin.php?page=<?=$_REQUEST['page']?>&crud=delete">Hapus</a> Data Mahasiswa</h3>
-	
-	<?
-}
-
-
-function read_data_mhs(){
-	echo "Daftar mhs yang ada di Politeknik Kampar adalah sebagai berikut :";
-	echo "<br>";
-	echo "<br>";
-	//print_r($_POST);
-	global $wpdb;
-	$mahasiswas = $wpdb->get_results(" SELECT * FROM {$wpdb->prefix}mahasiswa;");
-	$L=1;
-	foreach ( $mahasiswas as $mhs ) 
-	{
-        echo "<tr class='hentry alternate'><td align=center>".$L++ . " </td>
-			<td align=center >" .$mhs->nis .  " </td>
-			<td align=center >". $mhs->nama_mhs. "</td>
-			<td align=center>" .$mhs->jenis_kelamin .  " </td>
-			<td align=center>" .$mhs->alamat .  " </td>
-			<td align=center>" .$mhs->tmpt_lahir .  " </td>
-			<td align=center>" .$mhs->tgl_lahir .  " </td>
-			<td align=center>" .$mhs->agama .  " </td>
-			<td align=center>" .$mhs->kelas ."</td>
-			<td align=center>" .$mhs->semester ."</td>
-			<td align=center>" .$mhs->angkatan ."</td>
-			<td align=center>" .$mhs->nama_sekolah . "</td>
-			</tr>";
-        
-	}
-	echo "</table>";
-	?>
-		<h3><a href="admin.php?page=<?=$_REQUEST['page']?>&crud=panel">Kembali</a></h3>
-	<?
-}
-
-function delete_data_mhs(){
-	global $wpdb;
+function delete_data_mhs(){	global $wpdb;
 	//kalau sudah ada $nis yang ingin di delete, maka hapus
 	if(trim($_REQUEST['nis']!='')){
 		//hapus dari database
@@ -108,7 +47,7 @@ function delete_data_mhs(){
 	}
 	echo "</table>";
 	?>
-		<h3><a href="admin.php?page=<?=$_REQUEST['page']?>&crud=lihatla">Kembali</a></h3>
+		<h3><a href="<?php echo admin_url("admin.php")?>?page=<?=$_REQUEST['page']?>&crud=lihatla">Kembali</a></h3>
 	<?
 
 }
@@ -304,7 +243,7 @@ function create_data_mhs(){
 	<b><h3><input type=submit name=submit value=Daftar></h3></b>
 	<b><h3><input type=reset name=reset value=Batal></h3></b>
 	</form>
-		<h3><a href="admin.php?page=<?=$_REQUEST['page']?>&crud=panel">Kembali</a></h3>
+		<h3><a href="<?php echo admin_url("admin.php")?>?page=<?=$_REQUEST['page']?>&crud=panel">Kembali</a></h3>
 	<?php
 }
 	
@@ -336,12 +275,12 @@ function update_data_mhs(){
 	$hasilcari = Array();
 	$hasilcari = $wpdb->get_results("SELECT * FROM mhs WHERE nama_mhs LIKE '%$nama_mhs%'");
 	foreach($hasilcari as $mhs){
-		echo "<a href=\"admin.php?page=".$_REQUEST['page']."&crud=form&nis=".$mhs->nis."\">". $mhs->nama_mhs. "</a><br/>";
+		echo "<a href=\"". admin_url("admin.php")."?page=".$_REQUEST['page']."&crud=form&nis=".$mhs->nis."\">". $mhs->nama_mhs. "</a><br/>";
 	}
 	echo ("<br>");
 	echo ("<br>");
 	?>
-	<h3><a href="admin.php?page=<?=$_REQUEST['page']?>&crud=panel">Kembali</a></h3>
+	<h3><a href="<?php echo admin_url("admin.php")?>?page=<?=$_REQUEST['page']?>&crud=panel">Kembali</a></h3>
 	<?
 }
 	
@@ -380,7 +319,7 @@ function telah_update_data_mhs(){
 		$wpdb->query($SQL);
 		echo $SQL;
 		?>
-		<h3><a href="admin.php?page=<?=$_REQUEST['page']?>&crud=panel">Kembali</a></h3>
+		<h3><a href="<?php echo admin_url("admin.php")?>?page=<?=$_REQUEST['page']?>&crud=panel">Kembali</a></h3>
 		<?
 	}
 	
@@ -399,7 +338,7 @@ function form_update_data_mhs(){
 		$hasilcari = $wpdb->get_results("SELECT * FROM mhs WHERE nis = '$nis'");
 		foreach($hasilcari as $mhs){
 			?>
-			<form id="form1" name="form1" method="post" action="admin.php?page=<?=$_REQUEST['page']?>&crud=telah&nis="<? echo $mhs->nis; ?>">
+			<form id="form1" name="form1" method="post" action="<?php echo admin_url("admin.php")?>?page=<?=$_REQUEST['page']?>&crud=telah&nis="<? echo $mhs->nis; ?>">
 				<table class="form-table" >
 				<input type=hidden name=nis value="<?=$mhs->nis?>" />
 			<tr>
@@ -540,7 +479,7 @@ function form_update_data_mhs(){
 			  </table><br>
 				<b><h3><input type=submit name=submit value="Update">&nbsp;&nbsp;&nbsp;</b></h3>
 				<b><h3><input type=reset name=reset value="Reset"></b></h3>
-				<h3><a href="admin.php?page=<?=$_REQUEST['page']?>&crud=update">Kembali</a></h3>
+				<h3><a href="<?php echo admin_url("admin.php")?>?page=<?=$_REQUEST['page']?>&crud=update">Kembali</a></h3>
 		</form>
 		<?php
 		}
@@ -589,7 +528,7 @@ function lihat_data_mhs(){
 	}
 	echo "</table>";
 	?>
-		<h3><a href="admin.php?page=<?=$_REQUEST['page']?>&crud=lihat&nss=<?=$_REQUEST['nss']?>">Kembali</a></h3>
+		<h3><a href="<?php echo admin_url("admin.php")?>?page=<?=$_REQUEST['page']?>&crud=lihat&nss=<?=$_REQUEST['nss']?>">Kembali</a></h3>
 	<?
 }
 
@@ -654,8 +593,8 @@ function lihat_data_sekolah(){
 		WHERE nss='".$nss."';");
 		
 	?><h2>Menu untuk sekolah <? echo $nama_sekolah[0]->nama_sekolah; ?> :</h2>
-	<h3><a href="admin.php?page=<? echo $_REQUEST['page']; ?>&crud=guru&nss=<?=$nss;?>">Lihat Guru</a></h3>
+	<h3><a href="<?php echo admin_url("admin.php")?>?page=<? echo $_REQUEST['page']; ?>&crud=guru&nss=<?=$nss;?>">Lihat Guru</a></h3>
 	
-	<h3><a href="admin.php?page=<?=$_REQUEST['page']?>&crud=read&nss=<?=$_REQUEST['nss']?>">Kembali</a></h3>
+	<h3><a href="<?php echo admin_url("admin.php")?>?page=<?=$_REQUEST['page']?>&crud=read&nss=<?=$_REQUEST['nss']?>">Kembali</a></h3>
 	<?
 }
