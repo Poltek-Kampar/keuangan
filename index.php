@@ -99,52 +99,52 @@ function pendataan_create_menu() {
 
    
   add_menu_page( 
-  	'Sistem Informasi Keuangan', 	// page_title = judulnya 
-  	'Keuangan', 					//menu_title
-	//capability
-	//agar operator bisa melihat menu ini, jadikan capability nya menjadi read
-	'read',  						
-	//kalau hanya admin yang boleh lihat menu ini, jadikan manage_options
-	//'manage_options',
-	
-	//menu_slug, begini lebih baik, 
-	//yang penting tidak boleh ada yang sama
-	__FILE__, 						
+    'Sistem Informasi Keuangan',  // page_title = judulnya 
+    'Keuangan',           //menu_title
+    //capability
+    //agar operator bisa melihat menu ini, jadikan capability nya menjadi read
+    'read',             
+    //kalau hanya admin yang boleh lihat menu ini, jadikan manage_options
+    //'manage_options',
+    
+    //menu_slug, begini lebih baik, 
+    //yang penting tidak boleh ada yang sama
+  __FILE__,             
 
-	// fungsi yang dipanggil saat menu ini diklik
-	'keuangan_main_page',		
-	
-	//icon URL
-	plugins_url( 'keuangan16.x16.jpg', __FILE__ ), 
+  // fungsi yang dipanggil saat menu ini diklik
+  'keuangan_main_page',   
+  
+  //icon URL
+  plugins_url( 'keuangan16.x16.jpg', __FILE__ ), 
 
-	// position. 0 --> paling atas
-	0 				
+  // position. 0 --> paling atas
+  0         
   );
 
-	require_once('keuangan_main_page.php');
-	
+  require_once('keuangan_main_page.php');
+  
   //create submenu items
   //add_submenu_page( parent_slug, page_title, menu_title, capability, menu_slug, function );
   add_submenu_page( 
-	//parent_slug
-	__FILE__, 
-	
-	//page_title
-	'Keuangan > Data Mahasiswa', 
-	
-	//menu_title
-	'Mahasiswa', 
-	
-	//capability
-	'read', 
-	
-	//menu_slug
-	__FILE__.'keuangan_mahasiswa_page', 
-	
-	//function
-	'keuangan_mahasiswa_page' 
+  //parent_slug
+  __FILE__, 
+  
+  //page_title
+  'Keuangan > Data Mahasiswa', 
+  
+  //menu_title
+  'Mahasiswa', 
+  
+  //capability
+  'read', 
+  
+  //menu_slug
+  __FILE__.'keuangan_mahasiswa_page', 
+  
+  //function
+  'keuangan_mahasiswa_page' 
   );
-	
+  
 
 
 
@@ -264,65 +264,65 @@ add_action('wp_ajax_nopriv_keuangan_ajax_search','keuangan_ajax_search_response'
 
 function keuangan_ajax_search_response(){
 
-	global $wpdb;
-	echo '<font size="1">';
-	$posts = Array();
-	$findme = mysql_real_escape_string($_POST['findme']);
-	
-	$sql = "
-		SELECT *, sekolah.nama_sekolah 
-		FROM mhs INNER JOIN sekolah ON mhs.nss=sekolah.nss 
-		WHERE nama_guru like '%$findme%';";
+  global $wpdb;
+  echo '<font size="1">';
+  $posts = Array();
+  $findme = mysql_real_escape_string($_POST['findme']);
+  
+  $sql = "
+    SELECT *, sekolah.nama_sekolah 
+    FROM mhs INNER JOIN sekolah ON mhs.nss=sekolah.nss 
+    WHERE nama_guru like '%$findme%';";
 
-	$posts = $wpdb->get_results($sql);
-	echo '<table class="wp-list-table widefat fixed" >
-		<thead><tr>
-		<th style="width: 15px">No</th>
-		<th style="width: 80px">NUPTK</th>
-		<th style="width: 80px">NIP</th>
-		<th style="width: 80px">Nama Guru</th>
-		<th style="width: 80px">Tempat Lahir</th>
-		<th style="width: 80px">Tanggal Lahir</th>
-		<th style="width: 80px">Jabatan</th>
-		<th style="width: 80px">Pangkat</th>
-		<th style="width: 80px">Golongan</th>
-		<th style="width: 80px">Status</th>
-		<th style="width: 80px">Pendidikan Terakhir</th>
-		<th style="width: 80px">Jurusan</th>
-		<th style="width: 80px">Mata Pelajaran</th>
-		<th style="width: 80px">Jumlah Jam Mata Pelajaran</th>
-		<th style="width: 80px">Sertifikat</th>
-		<th style="width: 80px">Sertifikat Tahun</th>
-		<th style="width: 80px">Ket</th>
-		<th style="width: 80px">Nama Sekolah</th>
-		</tr></thead>';
-	echo '</font>'; 
-	$L=1;
-	foreach($posts as $guru)
-	{
-		echo "<tr>
-			<td>".$L++ . " </td>
-			<td>$guru->nuptk</td>
-			<td>$guru->nip</td>
-			<td>$guru->nama_guru</td>
-			<td>$guru->tempat_lahir</td>
-			<td>$guru->tanggal_lahir</td>
-			<td>$guru->jabatan</td>
-			<td>$guru->pangkat</td>
-			<td>$guru->golongan</td>
-			<td>$guru->status</td>
-			<td>$guru->pendidikan_terakhir</td>
-			<td>$guru->jurusan</td>
-			<td>$guru->mapel</td>
-			<td>$guru->jumlah_jam_mapel</td>
-			<td>$guru->sertifikat</td>
-			<td>$guru->sertifikat_tahun</td>
-			<td>$guru->ket</td>
-			<td>$guru->nama_sekolah</td>
-			</tr>\n";
-	}
-	echo " </table>";
+  $posts = $wpdb->get_results($sql);
+  echo '<table class="wp-list-table widefat fixed" >
+    <thead><tr>
+    <th style="width: 15px">No</th>
+    <th style="width: 80px">NUPTK</th>
+    <th style="width: 80px">NIP</th>
+    <th style="width: 80px">Nama Guru</th>
+    <th style="width: 80px">Tempat Lahir</th>
+    <th style="width: 80px">Tanggal Lahir</th>
+    <th style="width: 80px">Jabatan</th>
+    <th style="width: 80px">Pangkat</th>
+    <th style="width: 80px">Golongan</th>
+    <th style="width: 80px">Status</th>
+    <th style="width: 80px">Pendidikan Terakhir</th>
+    <th style="width: 80px">Jurusan</th>
+    <th style="width: 80px">Mata Pelajaran</th>
+    <th style="width: 80px">Jumlah Jam Mata Pelajaran</th>
+    <th style="width: 80px">Sertifikat</th>
+    <th style="width: 80px">Sertifikat Tahun</th>
+    <th style="width: 80px">Ket</th>
+    <th style="width: 80px">Nama Sekolah</th>
+    </tr></thead>';
+  echo '</font>'; 
+  $L=1;
+  foreach($posts as $guru)
+  {
+    echo "<tr>
+      <td>".$L++ . " </td>
+      <td>$guru->nuptk</td>
+      <td>$guru->nip</td>
+      <td>$guru->nama_guru</td>
+      <td>$guru->tempat_lahir</td>
+      <td>$guru->tanggal_lahir</td>
+      <td>$guru->jabatan</td>
+      <td>$guru->pangkat</td>
+      <td>$guru->golongan</td>
+      <td>$guru->status</td>
+      <td>$guru->pendidikan_terakhir</td>
+      <td>$guru->jurusan</td>
+      <td>$guru->mapel</td>
+      <td>$guru->jumlah_jam_mapel</td>
+      <td>$guru->sertifikat</td>
+      <td>$guru->sertifikat_tahun</td>
+      <td>$guru->ket</td>
+      <td>$guru->nama_sekolah</td>
+      </tr>\n";
+  }
+  echo " </table>";
 
-	die();
+  die();
 }
 ?>
