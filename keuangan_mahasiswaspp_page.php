@@ -7,6 +7,7 @@ function keuangan_mahasiswaspp_page(){
 	$crud = $_REQUEST['crud'];
 	switch ($crud){
 	    case "create": keuangan_mahasiswaspp_create();break;
+		case "read": keuangan_mahasiswaspp_read();break;
 		case "yes": keuangan_mahasiswaspp_yes();break;
 		case "no": keuangan_mahasiswaspp_no();break;
 		default: keuangan_mahasiswaspp_panel();break;
@@ -18,9 +19,9 @@ function keuangan_mahasiswaspp_panel(){
 	<table align="center" width="500" border="1">
 	<h2><center>Mahasiswa SPP</center></h2>
 	<tr><td align=center><h3><a href="<?php echo admin_url("admin.php")?>?page=<?php echo $_REQUEST['page'];?>&crud=create">Menambahkan Mahasiswa SPP</a></h3></td></tr>
+	<tr><td align=center><h3><a href="<?php echo admin_url("admin.php")?>?page=<?php echo $_REQUEST['page'];?>&crud=read">Lihat SPP Mahasiswa</a></h3></td></tr>
 	<tr><td align=center><h3><a href="<?php echo admin_url("admin.php")?>?page=<?php echo $_REQUEST['page'];?>&crud=yes">Lihat Mahasiswa harus Bayar SPP</a></h3></td></tr>
 	<tr><td align=center><h3><a href="<?php echo admin_url("admin.php")?>?page=<?php echo $_REQUEST['page'];?>&crud=no">Lihat Mahasiswa Yang Tidak Bayar SPP</a></h3></td></tr>
-	</tr>
 	</table>
 	<?
 }
@@ -99,6 +100,39 @@ function keuangan_mahasiswaspp_create(){
 	</form>
 		<h3><a href="<?php echo admin_url("admin.php")?>?page=<?php echo $_REQUEST['page'];?>&crud=panel">Kembali</a></h3>
 	<?php
+}
+
+function keuangan_mahasiswaspp_read(){
+	echo "Daftar SPP Mahasiswa Politeknik Kampar";
+	echo ("<br>");
+	echo ("<br>");
+	global $wpdb;
+	$spps = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}spp` 
+	INNER JOIN `{$wpdb->prefix}mahasiswa` ON {$wpdb->prefix}spp.id={$wpdb->prefix}mahasiswa.id");
+	echo "<table class=\"wp-list-table widefat fixed pages\">
+    <tr><th width=2><center>No</th></center>
+	<th width=20>Nama</th>
+    <th width=18>Tahun Ajaran</th>
+    <th width=20>Semester</th>
+	<th width=20>Besar</th>
+	<th width=20>Tanggal Bayar</th>
+	<th width=20>Jumlah Bayar</th>
+    </tr>";
+	$L=1;
+	foreach ( $spps as $spp ){
+		echo "<tr class='hentry alternate'><td align=center>".$L++ . " </td>
+		<td>". $spp->nama. "</td>
+		<td>" .$spp->tahun_ajaran.  " </td>
+		<td>". $spp->semester. "</td>
+		<td>". $spp->besar. "</td>
+		<td>". $spp->timestamp. "</td>
+		<td>". $spp->jumlah_bayar. "</td>
+		</tr>";
+	}
+	echo "</table>";
+	?>
+	<h3><center><a href="<?php echo admin_url("admin.php")?>?page=<?php echo $_REQUEST['page'];?>&crud=panel">Kembali</a></center></h3>
+	<?
 }
 
 function keuangan_mahasiswaspp_yes(){

@@ -51,20 +51,69 @@ function keuangan_pembayaran_create(){
 		-->
 		<?php 
 		global $wpdb;
-		$mahasiswa = $wpdb->get_results("SELECT id, nama FROM `{$wpdb->prefix}mahasiswa`");
+		$mahasiswa = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}mahasiswa` WHERE program_studi='Teknik Pengolahan Sawit'");
 		?>
 		<SELECT NAME="id_mahasiswa" ID="id_mahasiswa">
 		  <OPTION VALUE=""></OPTION>
 		<?php
-		foreach ( $mahasiswa as $nahasiswaspp ) 
+		foreach ( $mahasiswa as $mahasiswaspp ) 
 		{
-			echo "<OPTION VALUE=\"$nahasiswaspp->id;\" ". selected($mahasiswa->id,$nahasiswaspp->id).">$nahasiswaspp->nama</OPTION>";
+			echo "<OPTION VALUE=\"$mahasiswaspp->id;\" ". selected($mahasiswa->id,$mahasiswaspp->id).">$mahasiswaspp->nama $mahasiswaspp->nim</OPTION>";
 		}
 		?>
 		</SELECT>	  
 		<br />
-			<span class="description">Pilih Nama Mahasiswa ! </span>
-		</select>
+			<span class="description">Pilih Nama Mahasiswa Program Studi <b>TPS</b> !!! </span>
+		 </td>
+  </table>
+  
+  <table class="form-table" >
+    <tr>
+	<th><label for="id_mahasiswa"></label></th>
+		<td>
+		<!-- 
+		SELECT id, nama FROM `{$wpdb->prefix}mahasiswa`
+		-->
+		<?php 
+		global $wpdb;
+		$mahasiswa = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}mahasiswa` WHERE program_studi='Perawatan dan Perbaikan M'");
+		?>
+		<SELECT NAME="id_mahasiswa" ID="id_mahasiswa">
+		  <OPTION VALUE=""></OPTION>
+		<?php
+		foreach ( $mahasiswa as $mahasiswaspp ) 
+		{
+			echo "<OPTION VALUE=\"$mahasiswaspp->id;\" ". selected($mahasiswa->id,$mahasiswaspp->id).">$mahasiswaspp->nama $mahasiswaspp->nim</OPTION>";
+		}
+		?>
+		</SELECT>	  
+		<br />
+			<span class="description">Pilih Nama Mahasiswa Program Studi <b>PPM</b>  !!! </span>
+		 </td>
+  </table>
+  
+  <table class="form-table" >
+    <tr>
+	<th><label for="id_mahasiswa"></label></th>
+		<td>
+		<!-- 
+		SELECT id, nama FROM `{$wpdb->prefix}mahasiswa`
+		-->
+		<?php 
+		global $wpdb;
+		$mahasiswa = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}mahasiswa` WHERE program_studi='Teknik Informatika'");
+		?>
+		<SELECT NAME="id_mahasiswa" ID="id_mahasiswa">
+		  <OPTION VALUE=""></OPTION>
+		<?php
+		foreach ( $mahasiswa as $mahasiswaspp ) 
+		{
+			echo "<OPTION VALUE=\"$mahasiswaspp->id;\" ". selected($mahasiswa->id,$mahasiswaspp->id).">$mahasiswaspp->nama $mahasiswaspp->nim</OPTION>";
+		}
+		?>
+		</SELECT>	  
+		<br />
+			<span class="description">Pilih Nama Mahasiswa Program Studi <b>TIF</b>  !!! </span>
 		 </td>
   </table>
   
