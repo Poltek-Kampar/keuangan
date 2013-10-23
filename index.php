@@ -18,6 +18,7 @@ Author URI: https://github.com/kampar/
 */
 if(!function_exists('add_action'))die('Maaf, jangan dijalankan langsung ya ...!');
 
+define("PLUGIN_SLUG", "keuangan");
 
 
 /*
@@ -109,25 +110,28 @@ function pendataan_create_menu() {
     
     //menu_slug, begini lebih baik, 
     //yang penting tidak boleh ada yang sama
-  __FILE__,             
+  //__FILE__,             
+  PLUGIN_SLUG,             
 
   // fungsi yang dipanggil saat menu ini diklik
   'keuangan_main_page',   
   
   //icon URL
-  plugins_url( 'keuangan16.x16.jpg', __FILE__ ), 
+  //plugins_url( 'keuangan16.x16.jpg', __FILE__ ), 
+  plugins_url( 'keuangan16.x16.jpg', PLUGIN_SLUG ), 
 
   // position. 0 --> paling atas
   0         
   );
 
-  require_once('keuangan_main_page.php');
+
   
   //create submenu items
   //add_submenu_page( parent_slug, page_title, menu_title, capability, menu_slug, function );
   add_submenu_page( 
   //parent_slug
-  __FILE__, 
+  //__FILE__, 
+  PLUGIN_SLUG, 
   
   //page_title
   'Keuangan > Data Mahasiswa', 
@@ -136,17 +140,77 @@ function pendataan_create_menu() {
   'Mahasiswa', 
   
   //capability
-  'read', 
+  'manage_options', 
   
   //menu_slug
-  __FILE__.'keuangan_mahasiswa_page', 
+  PLUGIN_SLUG.'_mahasiswa', 
   
   //function
   'keuangan_mahasiswa_page' 
   );
   
 
-
+ add_submenu_page( 
+  //parent_slug
+  //__FILE__, 
+  PLUGIN_SLUG, 
+  
+  //page_title
+  'Keuangan > Data spp', 
+  
+  //menu_title
+  'spp', 
+  
+  //capability
+  'manage_options', 
+  
+  //menu_slug
+  //__FILE__.'keuangan_spp_page', 
+  PLUGIN_SLUG.'_spp', 
+  
+  //function
+  'keuangan_spp_page' 
+  );
+  
+  add_submenu_page( 
+  //parent_slug
+  PLUGIN_SLUG, 
+  
+  //page_title
+  'Keuangan > Mahasiswa spp', 
+  
+  //menu_title
+  'Mahasiswa SPP', 
+  
+  //capability
+  'read', 
+  
+  //menu_slug
+  PLUGIN_SLUG.'_mahasiswaspp', 
+  
+  //function
+  'keuangan_mahasiswaspp_page' 
+  );
+  
+  add_submenu_page( 
+  //parent_slug
+  PLUGIN_SLUG, 
+  
+  //page_title
+  'Keuangan > pembayaran', 
+  
+  //menu_title
+  'Pembayaran', 
+  
+  //capability
+  'read', 
+  
+  //menu_slug
+  PLUGIN_SLUG.'_pembayaran', 
+  
+  //function
+  'keuangan_pembayaran_page' 
+  );
 
   //Following is a list of all available submenu functions in WordPress.
   //add_dashboard_page  —   Adds a submenu to the Dashboard menu
@@ -166,7 +230,12 @@ function pendataan_create_menu() {
   //add_options_page( 'PMB Settings Page', 'PMB', 'manage_options', __FILE__, 'data_sekolah_page' );
 }
 
+require_once('keuangan_main_page.php');
 require_once('keuangan_mahasiswa_page.php');
+require_once('keuangan_spp_page.php');
+require_once('keuangan_mahasiswaspp_page.php');
+require_once('keuangan_pembayaran_page.php');
+
 
 //untuk dashboard widgets yang tampil di halaman utama admin di WordPress
 require_once('keuangan_dashboard_widgets.php');
@@ -269,60 +338,40 @@ function keuangan_ajax_search_response(){
   $posts = Array();
   $findme = mysql_real_escape_string($_POST['findme']);
   
+  // $sql = "
+    // SELECT *, sekolah.nama_sekolah 
+    // FROM mhs INNER JOIN sekolah ON mhs.nss=sekolah.nss 
+    // WHERE nama_guru like '%$findme%';";
+
   $sql = "
-    SELECT *, sekolah.nama_sekolah 
-    FROM mhs INNER JOIN sekolah ON mhs.nss=sekolah.nss 
-    WHERE nama_guru like '%$findme%';";
-
+    SELECT * FROM {$wpdb->prefix}mahasiswa 
+    WHERE nama like '%$findme%';";
+	
   $posts = $wpdb->get_results($sql);
-  echo '<table class="wp-list-table widefat fixed" >
-    <thead><tr>
-    <th style="width: 15px">No</th>
-    <th style="width: 80px">NUPTK</th>
-    <th style="width: 80px">NIP</th>
-    <th style="width: 80px">Nama Guru</th>
-    <th style="width: 80px">Tempat Lahir</th>
-    <th style="width: 80px">Tanggal Lahir</th>
-    <th style="width: 80px">Jabatan</th>
-    <th style="width: 80px">Pangkat</th>
-    <th style="width: 80px">Golongan</th>
-    <th style="width: 80px">Status</th>
-    <th style="width: 80px">Pendidikan Terakhir</th>
-    <th style="width: 80px">Jurusan</th>
-    <th style="width: 80px">Mata Pelajaran</th>
-    <th style="width: 80px">Jumlah Jam Mata Pelajaran</th>
-    <th style="width: 80px">Sertifikat</th>
-    <th style="width: 80px">Sertifikat Tahun</th>
-    <th style="width: 80px">Ket</th>
-    <th style="width: 80px">Nama Sekolah</th>
-    </tr></thead>';
-  echo '</font>'; 
-  $L=1;
-  foreach($posts as $guru)
-  {
-    echo "<tr>
-      <td>".$L++ . " </td>
-      <td>$guru->nuptk</td>
-      <td>$guru->nip</td>
-      <td>$guru->nama_guru</td>
-      <td>$guru->tempat_lahir</td>
-      <td>$guru->tanggal_lahir</td>
-      <td>$guru->jabatan</td>
-      <td>$guru->pangkat</td>
-      <td>$guru->golongan</td>
-      <td>$guru->status</td>
-      <td>$guru->pendidikan_terakhir</td>
-      <td>$guru->jurusan</td>
-      <td>$guru->mapel</td>
-      <td>$guru->jumlah_jam_mapel</td>
-      <td>$guru->sertifikat</td>
-      <td>$guru->sertifikat_tahun</td>
-      <td>$guru->ket</td>
-      <td>$guru->nama_sekolah</td>
-      </tr>\n";
-  }
-  echo " </table>";
+ echo "<table class=\"wp-list-table widefat fixed pages\">
+    <tr><th width=2><center>No</th></center>
+    <th width=18>NIM</th>
+    <th width=50>Nama Mahasiswa</th>
+	<th width=50>Program Studi</th>
+    <th class='manage-column column-cb check-column'><center>Jenis Kelamin</center></th>
+    <th width=25>Hp</th>
+    <th width=25>Email</th>
+    </tr>";
+	$L=1;
+	$page="keuangan/index.phpkeuangan_mahasiswa_page";
+	foreach ( $posts as $mahasiswa ){
+		echo "<tr class='hentry alternate'><td align=center>".$L++ . " </td>
+		<td>" .$mahasiswa->nim.  " </td>
+		<td>" ."<a href=\"". admin_url("admin.php")."?page=".$page."&crud=detail&nim=".$mahasiswa->nim."\">". $mahasiswa->nama. "</a><br/>" .  " </td>
+		<td>". $mahasiswa->program_studi. "</td>
+		<td align=center>" .$mahasiswa->jenis_kelamin.  " </td>
+		<td>" .$mahasiswa->hp.  " </td>
+		<td>" .$mahasiswa->email.  " </td>
+		</tr>";
+	}
+	echo "</table>";
 
+	//ajax harus die,,karena
   die();
 }
 ?>

@@ -107,16 +107,21 @@ function keuangan_mahasiswaspp_read(){
 	echo ("<br>");
 	echo ("<br>");
 	global $wpdb;
-	$spps = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}spp` 
-	INNER JOIN `{$wpdb->prefix}mahasiswa` ON {$wpdb->prefix}spp.id={$wpdb->prefix}mahasiswa.id");
+	$spps = $wpdb->get_results("
+		SELECT 
+			`{$wpdb->prefix}mahasiswaspp_v`.nama, 
+			`{$wpdb->prefix}mahasiswaspp_v`.tahun_ajaran, 
+			`{$wpdb->prefix}mahasiswaspp_v`.semester, 
+			`{$wpdb->prefix}mahasiswaspp_v`.besar
+		FROM 
+			(
+			`{$wpdb->prefix}mahasiswaspp_v`)");
 	echo "<table class=\"wp-list-table widefat fixed pages\">
     <tr><th width=2><center>No</th></center>
 	<th width=20>Nama</th>
     <th width=18>Tahun Ajaran</th>
     <th width=20>Semester</th>
 	<th width=20>Besar</th>
-	<th width=20>Tanggal Bayar</th>
-	<th width=20>Jumlah Bayar</th>
     </tr>";
 	$L=1;
 	foreach ( $spps as $spp ){
@@ -125,8 +130,6 @@ function keuangan_mahasiswaspp_read(){
 		<td>" .$spp->tahun_ajaran.  " </td>
 		<td>". $spp->semester. "</td>
 		<td>". $spp->besar. "</td>
-		<td>". $spp->timestamp. "</td>
-		<td>". $spp->jumlah_bayar. "</td>
 		</tr>";
 	}
 	echo "</table>";
