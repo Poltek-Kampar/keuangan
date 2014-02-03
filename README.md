@@ -5,7 +5,12 @@ Sistem Informasi Keuangan as WordPress Plugin
 
 Description (in Bahasa Indonesia, google-translate it if you can't speak Bahasa)
 --------------------------------------------------------------------------------
-Siste Informasi Keuangan adalah sebuah sistem informasi keuangan politeknik yang dibuat sebagai plugin di WordPress.
+keuangan, merupakan sebuah "Sistem Informasi Keuangan", yaitu sebuah sistem informasi keuangan di Politeknik Kampar yang dibuat sebagai plugin di WordPress.
+
+Live Demo
+---------
+http://keuangan.poltek-kampar.ac.id
+
 
 Kenapa WordPress?
 -----------------
